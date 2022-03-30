@@ -15,28 +15,34 @@ class CheckoutPage {
     }
   }
 
-  protected findIframeIndex(locator: string): number {
+  protected waitForPage(ulrPart: string): void {
+    browser.waitUntil(() => browser.getUrl().toLowerCase().includes(ulrPart));
+  }
+
+  protected findIframeIndex(elInIframeLocator: string): number {
     let iframeIndex = -1;
 
     do {
       browser.switchToFrame(null);
       browser.switchToFrame(++iframeIndex);
-    } while ($$(locator).length === 0);
+    } while ($$(elInIframeLocator).length === 0);
 
     browser.switchToFrame(null);
 
     return iframeIndex;
   }
 
-  protected waitAndClick(element: WebdriverIO.Element): void {
-    element.waitForDisplayed();
-    element.waitForEnabled();
-    element.waitForClickable();
-    element.click();
+  protected waitAndClick(buttonLocator: string): void {
+    const button = $(buttonLocator);
+
+    button.waitForDisplayed();
+    button.waitForEnabled();
+    button.waitForClickable();
+    button.click();
   }
 
   protected submitBillingForm() {
-    this.waitAndClick($('[value="submit-payment"]'));
+    this.waitAndClick('[value="submit-payment"]');
 
     this.waitForSpinner();
   }
@@ -54,17 +60,20 @@ class CheckoutPage {
     }
     $('#shippingAddressCitydefault').setValue(address.city);
     $('#shippingZipCodedefault').setValue(address.zip);
+    browser.pause(1000);
     $('#shippingPhoneNumberdefault').setValue(address.phone);
 
     this.waitForSpinner();
 
-    this.waitAndClick($('.submit-shipping'));
+    this.waitAndClick('.submit-shipping');
 
     this.waitForSpinner();
   }
 
   public completeBillingStepWithCC(card: { [key: string]: any }): void {
     this.waitForPaymentSpinner();
+
+    $('#lb_scheme').click();
 
     let CCIframeIndex = this.findIframeIndex('#encryptedCardNumber');
 
@@ -86,7 +95,7 @@ class CheckoutPage {
   }
 
   public completeReviewStep(): void {
-    this.waitAndClick($('[value="place-order"]'));
+    this.waitAndClick('[value="place-order"]');
 
     this.waitForSpinner();
   }
@@ -101,42 +110,41 @@ class CheckoutPage {
     const payPalIframeIndex = this.findIframeIndex('.paypal-button[role="button"]');
 
     browser.switchToFrame(payPalIframeIndex);
-    this.waitAndClick($('.paypal-button[role="button"]'));
+    this.waitAndClick('.paypal-button[role="button"]');
     browser.switchToFrame(null);
 
     const allWindows = browser.getWindowHandles();
     const PPWindowIndex = allWindows.indexOf(parentWindow) === 0 ? 1 : 0;
     browser.switchToWindow(allWindows[PPWindowIndex]);
-
     $('#btnLogin').waitForDisplayed();
     $('#backToInputEmailLink').click();
     $('#email').setValue(payPal.email);
     browser.keys('Enter');
     $('#password').setValue(payPal.password);
     browser.keys('Enter');
-
-    this.waitAndClick($('#payment-submit-btn'));
+    this.waitAndClick('#payment-submit-btn');
 
     browser.switchToWindow(parentWindow);
 
-    browser.waitUntil(() => browser.getUrl().includes('order-confirm'));
+    this.waitForPage('order-confirm');
   }
 
   public placeOrderWithPayPalExpress(payPal: { [key: string]: any }): void {
-    this.waitAndClick($('#paypal-image-button'));
+    this.waitAndClick('#paypal-image-button');
 
     $('#email').waitForDisplayed();
     $('#email').setValue(payPal.email);
     browser.keys('Enter');
     $('#password').setValue(payPal.password);
     browser.keys('Enter');
-
-    this.waitAndClick($('button[data-testid="change-shipping"]'));
+    this.waitAndClick('button[data-testid="change-shipping"]');
     $('#shippingDropdown').selectByVisibleText('FirstName LastName - 315 E Eisenhower Pkwy, Ann Arbor, MI 48108');
-
     $('#payment-submit-btn').click();
 
-    browser.waitUntil(() => browser.getUrl().includes('payment'));
+    this.waitForPage('payment');
+
+    $('[for="shippingAddressUseAsBillingAddress"]').click();
+    $('[for="shippingAddressUseAsBillingAddress"]').click();
 
     this.submitBillingForm();
   }
@@ -149,7 +157,6 @@ class CheckoutPage {
     this.submitBillingForm();
 
     const klarnaIframeIndex = this.findIframeIndex('#main-remote-root');
-
     browser.switchToFrame(klarnaIframeIndex);
     const phoneField = $('#email_or_phone');
     phoneField.waitForDisplayed();
@@ -164,10 +171,39 @@ class CheckoutPage {
     codeField.waitForDisplayed();
     codeField.setValue(klarna.phone);
     browser.keys('Enter');
-    this.waitAndClick($('#payinparts_kp-purchase-review-continue-button'));
+    this.waitAndClick('#payinparts_kp-purchase-review-continue-button');
     browser.switchToFrame(null);
 
-    browser.waitUntil(() => browser.getUrl().includes('order-confirm'));
+    this.waitForPage('order-confirm');
+  }
+
+  public payWithLocalPayment(paymentType: string): void {
+    let paymentLocator: string;
+    let submitBtnLocator: string;
+
+    switch (paymentType) {
+      case 'ideal':
+        paymentLocator = '#lb_ideal';
+        submitBtnLocator = '[type="submit"]';
+        break;
+      case 'dotpay':
+        paymentLocator = '#lb_dotpay';
+        submitBtnLocator = '[value="accept"]';
+        break;
+      default:
+        paymentLocator = `#lb_${paymentType}`;
+        submitBtnLocator = '[type="submit"]';
+    }
+    this.waitForPaymentSpinner();
+
+    $(paymentLocator).click();
+
+    $('.adyen-checkout__dropdown__button').click();
+    $('.adyen-checkout__dropdown__list li:nth-child(2)').click();
+
+    this.submitBillingForm();
+
+    this.waitAndClick(submitBtnLocator);
   }
 }
 

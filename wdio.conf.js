@@ -1,6 +1,6 @@
 process.env.TS_NODE_FILES = true;
 require('ts-node').register();
-let baseUrl = 'https://storefront:kontoor@staging-na01-kontoor.demandware.net';
+// let baseUrl = 'https://storefront:kontoor@staging-na01-kontoor.demandware.net';
 
 if (process.env.SUITE_TO_RUN) {
   let MY_TESTS = {
@@ -14,6 +14,7 @@ if (process.env.SUITE_TO_RUN) {
 const timeout = process.env.DEBUG ? 999999999 : 300000;
 
 const wdioConfig = {
+  baseUrl: 'https://storefront:kontoor@',
   // hostname: 'hub.testingbot.com',
   // services: ['testingbot'],
   waitforTimeout: 20000,
@@ -21,14 +22,17 @@ const wdioConfig = {
   connectionRetryCount: 3,
   runner: 'local',
   hostname: 'localhost',
-  services: ['selenium-standalone'],
+  // services: ['selenium-standalone'],
+  services: [
+    ['selenium-standalone', { drivers: { firefox: 'latest', chrome: 'latest', chromiumedge: 'latest' }, skipSeleniumInstall: true }]
+  ],
   port: 4444,
   hostname: 'localhost',
   path: '/wd/hub',
   // specs: ['./test/kontoor-tests/*/*/*.ts'],
-  specs: ['./test/specs/NAM/Wrangler/checkoutWithKlarna.ts'],
+  specs: ['./test/specs/**/checkoutWithDotpay.ts'],
   sync: true,
-  logLevel: 'error',
+  logLevel: 'warn',
   user: '22ccc3a02857edda11703d8d2a4c3d17',
   key: 'dcebc5a49fd677f78991f2d3484b9c46',
   //user: '0f30088d11696cd7e55c70bacafb2639',
@@ -40,7 +44,7 @@ const wdioConfig = {
       browserName: 'chrome'
     }
   ],
-  baseUrl: baseUrl,
+  // baseUrl: baseUrl,
   framework: 'mocha',
 
   // multiremote

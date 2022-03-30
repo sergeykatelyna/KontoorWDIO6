@@ -13,23 +13,27 @@ class ProductPage extends BasePage {
 
   selectSizes() {
     const size1 = $$('.SIZE1 button');
-    let unselectable1;
+    let size1Class;
     let i = -1;
     do {
       i++;
-      unselectable1 = size1[i].getAttribute('class').trim() === 'unselectable';
-    } while (unselectable1);
-    size1[i].click();
+      size1Class = size1[i].getAttribute('class').trim();
+    } while (size1Class === 'unselectable');
+    if (size1Class !== 'selected') {
+      size1[i].click();
+    }
     this.spinnerWait();
 
     const size2 = $$('.SIZE2 button');
-    let unselectable2;
+    let size2Class;
     let j = -1;
     do {
       j++;
-      unselectable2 = size2[j].getAttribute('class').trim() === 'unselectable';
-    } while (unselectable2);
-    size2[j].click();
+      size2Class = size2[j].getAttribute('class').trim();
+    } while (size2Class === 'unselectable');
+    if (size2Class !== 'selected') {
+      size2[j].click();
+    }
     this.spinnerWait();
   }
 

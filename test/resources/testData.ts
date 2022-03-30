@@ -41,7 +41,7 @@ export const addresses = {
     valid: {
       address1: 'Wiesławów 2',
       address2: '',
-      city: 'Burnham-on-Crouch',
+      city: 'Złożeniec',
       state: 'Śląskie',
       zip: '42-436',
       phone: '3333333333'
@@ -96,4 +96,11 @@ export const payPal = {
 export const klarna = {
   phone: '+13322176301',
   code: '111111'
+};
+
+export const confirmTitle = {
+  en: 'thank you for your order',
+  nl: 'bedankt voor je bestelling',
+  fr: 'merci de votre commande',
+  pl: 'dziękuję za twoje zamówienie'
 };

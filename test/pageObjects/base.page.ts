@@ -14,11 +14,14 @@ abstract class BasePage extends Page {
   }
 
   get l2CatLink() {
-    return $$('ul.navbar-nav li.nav-item:nth-child(2) ul.dropdown-menu li.dropdown-item:nth-child(3) a')[0];
+    return $$('ul.navbar-nav li.nav-item:nth-child(2) ul.dropdown-menu li.dropdown-item:nth-child(3) a')[1];
   }
 
-  get l2CatLinkHref() {
-    return this.l2CatLink.getAttribute('href');
+  get l2CatLinkName() {
+    const catPath = this.l2CatLink.getAttribute('data-gtm-menu-path').split(':');
+    const catName = catPath[catPath.length - 1].split(' ')[0].toLowerCase();
+
+    return catName;
   }
 
   goToCartPage() {

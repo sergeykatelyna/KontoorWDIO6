@@ -1,11 +1,13 @@
 import { checkoutPage } from '../pageObjects/checkout.page';
 
-const checkIfOrderPlaced = function () {
+const verifyOrderPlaced = function (confirmTitle) {
   it('Verify URL and title of Confirmation page', function () {
-    expect(browser).toHaveUrlContaining('order-confirm');
+    const pageUrl = browser.getUrl().toLowerCase();
+    expect(pageUrl).toContain('order-confirm');
+
     const titleText = checkoutPage.confirmStepMessage.getText().toLowerCase();
-    expect(titleText).toContain('thank you for your order');
+    expect(titleText).toContain(confirmTitle);
   });
 };
 
-export { checkIfOrderPlaced };
+export { verifyOrderPlaced };

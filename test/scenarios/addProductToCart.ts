@@ -10,11 +10,11 @@ const addProductToCart = function (domain) {
   });
 
   it('Navigate to Category page', function () {
-    const catHref = homePage.l2CatLinkHref;
+    const catName = homePage.l2CatLinkName;
 
     homePage.goToCategoryPage();
 
-    expect(browser).toHaveUrlContaining(catHref);
+    expect(browser).toHaveUrlContaining(catName);
   });
 
   it('Navigate to Product page', function () {

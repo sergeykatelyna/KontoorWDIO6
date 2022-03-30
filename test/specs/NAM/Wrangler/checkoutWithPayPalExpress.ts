@@ -1,13 +1,13 @@
 import { addProductToCart } from '../../../scenarios/addProductToCart';
 import { goToCartPage } from '../../../scenarios/goToCartPage';
 import { payWithPayPalExpress } from '../../../scenarios/payWithPayPalExpress';
-import { checkIfOrderPlaced } from '../../../scenarios/verifyOrderPlaced';
+import { verifyOrderPlaced } from '../../../scenarios/verifyOrderPlaced';
 
-import { payPal } from '../../../resources/testData';
+import { payPal, confirmTitle } from '../../../resources/testData';
 
 describe('Guest user places order using PayPal Express on Staging NAM Wrangler', function () {
   describe('Add product to Cart', function () {
-    addProductToCart('https://storefront:kontoor@staging-na01-kontoor.demandware.net/s/Wrangler');
+    addProductToCart('staging-na01-kontoor.demandware.net/s/Wrangler');
   });
 
   describe('Go to Cart page', goToCartPage);
@@ -16,5 +16,7 @@ describe('Guest user places order using PayPal Express on Staging NAM Wrangler',
     payWithPayPalExpress(payPal);
   });
 
-  describe('Check if order has been placed', checkIfOrderPlaced);
+  describe('Check if order has been placed', function () {
+    verifyOrderPlaced(confirmTitle.en);
+  });
 });
