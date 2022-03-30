@@ -2,14 +2,16 @@ import { homePage } from '../pageObjects/home.page';
 import { categoryPage } from '../pageObjects/category.page';
 import { productPage } from '../pageObjects/product.page';
 
-const addProductToCart = function (domain) {
+const addProductToCart = function (urlSitePath) {
   it('Access site', function () {
-    homePage.open(domain);
+    homePage.open(urlSitePath);
 
     expect(browser).toHaveUrlContaining('home');
   });
 
   it('Navigate to Category page', function () {
+    homePage.openCategoryDropDown();
+
     const catName = homePage.l2CatLinkName;
 
     homePage.goToCategoryPage();
@@ -28,7 +30,7 @@ const addProductToCart = function (domain) {
   it('Add product to Cart', function () {
     productPage.addToCart();
 
-    expect(productPage.miniCartQty).toHaveText('1');
+    expect(productPage.miniCartQty).toEqual('1');
   });
 };
 

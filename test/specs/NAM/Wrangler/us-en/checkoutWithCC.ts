@@ -7,15 +7,15 @@ import { verifyOrderPlaced } from '../../../../scenarios/verifyOrderPlaced';
 
 import { addresses, creditCards, confirmTitle } from '../../../../resources/testData';
 
-describe('Guest user places order using CC on Staging EMEA Wrangler fr_FR', function () {
+describe('Guest user places order using CC on Staging NAM Wrangler', function () {
   describe('Add product to Cart', function () {
-    addProductToCart('/s/Wrangler/fr-fr');
+    addProductToCart('/s/Wrangler');
   });
 
   describe('Go to Cart page', goToCartPage);
 
   describe('Complete Shipping step', function () {
-    completeShippingStep(addresses.fr.valid);
+    completeShippingStep(addresses.us.valid);
   });
 
   describe('Complete Billing step with CC', function () {
@@ -25,6 +25,6 @@ describe('Guest user places order using CC on Staging EMEA Wrangler fr_FR', func
   describe('Complete Review step', completeReviewStep);
 
   describe('Check if order has been placed', function () {
-    verifyOrderPlaced(confirmTitle.fr);
+    verifyOrderPlaced(confirmTitle.en);
   });
 });

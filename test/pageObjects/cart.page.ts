@@ -1,7 +1,7 @@
 import { BasePage } from './base.page';
 
 class CartPage extends BasePage {
-  goToCheckout() {
+  public goToCheckout(): void {
     $('.checkout-btn').click();
   }
 }

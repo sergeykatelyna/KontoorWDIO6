@@ -1,17 +1,17 @@
 import { BasePage } from './base.page';
 
 class ProductPage extends BasePage {
-  get miniCartQty() {
-    return $('a .minicart-quantity');
+  public get miniCartQty(): string {
+    return $('a .minicart-quantity').getText();
   }
 
-  spinnerWait() {
+  protected spinnerWait(): void {
     if ($('.veil').isDisplayed()) {
       $('.veil').waitForDisplayed({ reverse: true });
     }
   }
 
-  selectSizes() {
+  protected selectSizes(): void {
     const size1 = $$('.SIZE1 button');
     let size1Class;
     let i = -1;
@@ -37,13 +37,13 @@ class ProductPage extends BasePage {
     this.spinnerWait();
   }
 
-  clickAddToCartBtn() {
+  protected clickAddToCartBtn(): void {
     const addToCartBtn = $('.add-to-cart');
     addToCartBtn.waitForEnabled();
     addToCartBtn.click();
   }
 
-  addToCart() {
+  public addToCart(): void {
     this.selectSizes();
     this.clickAddToCartBtn();
 

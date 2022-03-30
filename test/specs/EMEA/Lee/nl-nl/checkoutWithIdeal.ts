@@ -8,7 +8,7 @@ import { addresses, confirmTitle } from '../../../../resources/testData';
 
 describe('Guest user places order using iDEAL on Staging EMEA Lee nl_NL', function () {
   describe('Add product to Cart', function () {
-    addProductToCart('staging-eu01-kontoor.demandware.net/s/Lee/nl-nl');
+    addProductToCart('/s/Lee/nl-nl');
   });
 
   describe('Go to Cart page', goToCartPage);

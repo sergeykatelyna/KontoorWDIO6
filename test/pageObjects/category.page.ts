@@ -1,15 +1,15 @@
 import { BasePage } from './base.page';
 
 class CategoryPage extends BasePage {
-  get productTile() {
+  protected get productTile(): WebdriverIO.Element {
     return $('.product-grid .grid-item:nth-child(1) .pdp-link a');
   }
 
-  get productTileId() {
+  public get productTileId(): string {
     return this.productTile.getAttribute('id');
   }
 
-  goToProductDetailsPage() {
+  public goToProductDetailsPage(): void {
     this.productTile.click();
   }
 }

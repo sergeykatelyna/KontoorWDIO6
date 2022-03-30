@@ -72,7 +72,6 @@ class CheckoutPage {
 
   public completeBillingStepWithCC(card: { [key: string]: any }): void {
     this.waitForPaymentSpinner();
-
     $('#lb_scheme').click();
 
     let CCIframeIndex = this.findIframeIndex('#encryptedCardNumber');
@@ -104,7 +103,6 @@ class CheckoutPage {
     const parentWindow = browser.getWindowHandle();
 
     this.waitForPaymentSpinner();
-
     $('#lb_paypal').click();
 
     const payPalIframeIndex = this.findIframeIndex('.paypal-button[role="button"]');
@@ -151,7 +149,6 @@ class CheckoutPage {
 
   public placeOrderWithKlarna(klarna: { [key: string]: any }): void {
     this.waitForPaymentSpinner();
-
     $('#lb_klarna_account').click();
 
     this.submitBillingForm();
@@ -177,7 +174,7 @@ class CheckoutPage {
     this.waitForPage('order-confirm');
   }
 
-  public payWithLocalPayment(paymentType: string): void {
+  public placeOrderWithLocalPayment(paymentType: string): void {
     let paymentLocator: string;
     let submitBtnLocator: string;
 
@@ -194,8 +191,8 @@ class CheckoutPage {
         paymentLocator = `#lb_${paymentType}`;
         submitBtnLocator = '[type="submit"]';
     }
-    this.waitForPaymentSpinner();
 
+    this.waitForPaymentSpinner();
     $(paymentLocator).click();
 
     $('.adyen-checkout__dropdown__button').click();
@@ -204,6 +201,26 @@ class CheckoutPage {
     this.submitBillingForm();
 
     this.waitAndClick(submitBtnLocator);
+  }
+
+  public placeOrderWithGiropay() {
+    this.waitForPaymentSpinner();
+    $('#lb_giropay').click();
+
+    this.submitBillingForm();
+
+    $('#tags').setValue('Testbank Fiducia 44448888 GENODETT488');
+    $('ul.ui-autocomplete').waitForDisplayed();
+    browser.keys('ArrowDown');
+    browser.keys('Enter');
+    $('[name="continueBtn"]').click();
+    $('#layerBic #yes').click();
+
+    $('[name="sc"]').setValue('1111');
+    $('[name="extensionSc"]').setValue('1111');
+    $('[name="customerName1"]').setValue('1111');
+    $('[name="customerIBAN"]').setValue('1111');
+    $('[value="Absenden"]').click();
   }
 }
 

@@ -30,7 +30,7 @@ const wdioConfig = {
   hostname: 'localhost',
   path: '/wd/hub',
   // specs: ['./test/kontoor-tests/*/*/*.ts'],
-  specs: ['./test/specs/**/checkoutWithDotpay.ts'],
+  specs: ['./test/specs/**/checkoutWithGiropay.ts'],
   sync: true,
   logLevel: 'warn',
   user: '22ccc3a02857edda11703d8d2a4c3d17',
@@ -85,16 +85,16 @@ const wdioConfig = {
     browser.setTimeout({ pageLoad: 60000, implicit: 250 });
     // browser.windowHandleSize({ width: 1400, height: 1050 });
     // console.log(specs[0]);
-    // if (specs[0].indexOf('us-en') > 0) {
-    //   browser.options.baseUrl = 'https://storefront:kontoor@staging-na01-kontoor.demandware.net';
-    // } else {
-    //   browser.options.baseUrl = 'https://storefront:kontoor@staging-eu01-kontoor.demandware.net';
+    if (specs[0].includes('us-en')) {
+      browser.options.baseUrl = 'https://storefront:kontoor@staging-na01-kontoor.demandware.net';
+    } else {
+      browser.options.baseUrl = 'https://storefront:kontoor@staging-eu01-kontoor.demandware.net';
+    }
+    // if(specs[0].indexOf("us-en") > 0){
+    //     browser.options.baseUrl = "https://storefront:kontoor@development-na01-kontoor.demandware.net"
+    // }else{
+    //     browser.options.baseUrl = "https://storefront:kontoor@development-eu01-kontoor.demandware.net"
     // }
-    // // if(specs[0].indexOf("us-en") > 0){
-    // //     browser.options.baseUrl = "https://storefront:kontoor@development-na01-kontoor.demandware.net"
-    // // }else{
-    // //     browser.options.baseUrl = "https://storefront:kontoor@development-eu01-kontoor.demandware.net"
-    // // }
     // console.log('URL: ' + this.baseUrl);
   }
   // beforeTest: function (test) {

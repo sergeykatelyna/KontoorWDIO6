@@ -1,8 +1,8 @@
 abstract class Page {
-  open(pageUrl: string) {
+  public open(url: string): void {
     // browser.maximizeWindow();
 
-    browser.url(pageUrl);
+    browser.url(url);
 
     if ($('div[id^="dy-overlay"]').isDisplayed()) {
       $('div[id^="dy-overlay"] a.link__close').click();

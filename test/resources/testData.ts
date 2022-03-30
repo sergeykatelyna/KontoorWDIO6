@@ -102,5 +102,6 @@ export const confirmTitle = {
   en: 'thank you for your order',
   nl: 'bedankt voor je bestelling',
   fr: 'merci de votre commande',
-  pl: 'dziękuję za twoje zamówienie'
+  pl: 'dziękuję za twoje zamówienie',
+  de: 'vielen dank für ihre bestellung'
 };
