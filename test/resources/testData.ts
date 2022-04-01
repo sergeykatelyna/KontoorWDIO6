@@ -1,3 +1,5 @@
+export const email = 'roman.holubkov1@capgemini.com';
+
 export const addresses = {
   us: {
     valid: {

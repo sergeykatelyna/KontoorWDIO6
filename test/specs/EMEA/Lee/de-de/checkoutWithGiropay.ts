@@ -1,20 +1,17 @@
 import { addProductToCart } from '../../../../scenarios/addProductToCart';
-import { goToCartPage } from '../../../../scenarios/goToCartPage';
 import { completeShippingStep } from '../../../../scenarios/completeShippingStep';
 import { payWithGiropay } from '../../../../scenarios/payWithGiropay';
 import { verifyOrderPlaced } from '../../../../scenarios/verifyOrderPlaced';
 
-import { addresses, confirmTitle } from '../../../../resources/testData';
+import { email, addresses, confirmTitle } from '../../../../resources/testData';
 
-describe('Guest user places order using GiroPay on Staging EMEA Lee de_DE', function () {
-  describe('Add product to Cart', function () {
+describe('Kontoor: guest user places order using GiroPay on Staging EMEA Lee de_DE', function () {
+  describe('Access site, add product to Cart and go to Cart page', function () {
     addProductToCart('/s/Lee/de-de');
   });
 
-  describe('Go to Cart page', goToCartPage);
-
   describe('Complete Shipping step', function () {
-    completeShippingStep(addresses.de.valid);
+    completeShippingStep(email, addresses.de.valid);
   });
 
   describe('Place order with iDEAL', payWithGiropay);

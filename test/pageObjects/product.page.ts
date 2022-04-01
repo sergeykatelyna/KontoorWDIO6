@@ -5,12 +5,6 @@ class ProductPage extends BasePage {
     return $('a .minicart-quantity').getText();
   }
 
-  protected spinnerWait(): void {
-    if ($('.veil').isDisplayed()) {
-      $('.veil').waitForDisplayed({ reverse: true });
-    }
-  }
-
   protected selectSizes(): void {
     const size1 = $$('.SIZE1 button');
     let size1Class;
@@ -22,9 +16,12 @@ class ProductPage extends BasePage {
     if (size1Class !== 'selected') {
       size1[i].click();
     }
-    this.spinnerWait();
+    this.waitForSpinner();
 
     const size2 = $$('.SIZE2 button');
+    if (size2.length === 0) {
+      return;
+    }
     let size2Class;
     let j = -1;
     do {
@@ -34,22 +31,18 @@ class ProductPage extends BasePage {
     if (size2Class !== 'selected') {
       size2[j].click();
     }
-    this.spinnerWait();
+    this.waitForSpinner();
   }
 
   protected clickAddToCartBtn(): void {
-    const addToCartBtn = $('.add-to-cart');
-    addToCartBtn.waitForEnabled();
-    addToCartBtn.click();
+    this.waitAndClick('.add-to-cart');
   }
 
   public addToCart(): void {
     this.selectSizes();
     this.clickAddToCartBtn();
 
-    const closeBtn = $('#add-to-cart-modal .close');
-    closeBtn.waitForDisplayed();
-    closeBtn.click();
+    this.waitAndClick('#add-to-cart-modal .close');
   }
 }
 

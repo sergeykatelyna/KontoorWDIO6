@@ -1,12 +1,8 @@
-class CheckoutPage {
+import { Page } from './page';
+
+class CheckoutPage extends Page {
   public get confirmStepMessage(): WebdriverIO.Element {
     return $('.order-thank-you-msg');
-  }
-
-  protected waitForSpinner(): void {
-    if ($('.veil').isDisplayed()) {
-      $('.veil').waitForDisplayed({ reverse: true });
-    }
   }
 
   protected waitForPaymentSpinner(): void {
@@ -15,40 +11,24 @@ class CheckoutPage {
     }
   }
 
-  protected waitForPage(ulrPart: string): void {
-    browser.waitUntil(() => browser.getUrl().toLowerCase().includes(ulrPart));
-  }
-
   protected findIframeIndex(elInIframeLocator: string): number {
     let iframeIndex = -1;
-
     do {
       browser.switchToFrame(null);
       browser.switchToFrame(++iframeIndex);
     } while ($$(elInIframeLocator).length === 0);
-
     browser.switchToFrame(null);
 
     return iframeIndex;
   }
 
-  protected waitAndClick(buttonLocator: string): void {
-    const button = $(buttonLocator);
-
-    button.waitForDisplayed();
-    button.waitForEnabled();
-    button.waitForClickable();
-    button.click();
-  }
-
-  protected submitBillingForm() {
+  protected submitBillingForm(): void {
     this.waitAndClick('[value="submit-payment"]');
-
     this.waitForSpinner();
   }
 
-  public completeShippingStep(address: { [key: string]: any }): void {
-    $('#email').setValue('roman.holubkov@capgemini.com');
+  public completeShippingStep(email: string, address: { [key: string]: any }): void {
+    $('#email').setValue(email);
     $('#shippingFirstNamedefault').setValue('FirstName');
     $('#shippingLastNamedefault').setValue('LastName');
     $('#shippingAddressOnedefault').setValue(address.address1);
@@ -58,15 +38,21 @@ class CheckoutPage {
     } else {
       state.setValue(address.state);
     }
-    $('#shippingAddressCitydefault').setValue(address.city);
-    $('#shippingZipCodedefault').setValue(address.zip);
+    browser.keys('Tab');
     browser.pause(1000);
+    this.waitForSpinner();
+    $('#shippingAddressCitydefault').setValue(address.city);
+    browser.keys('Tab');
+    browser.pause(1000);
+    this.waitForSpinner();
+    $('#shippingZipCodedefault').setValue(address.zip);
+    browser.keys('Tab');
+    browser.pause(2000);
+    this.waitForSpinner();
     $('#shippingPhoneNumberdefault').setValue(address.phone);
-
     this.waitForSpinner();
 
     this.waitAndClick('.submit-shipping');
-
     this.waitForSpinner();
   }
 
@@ -95,7 +81,6 @@ class CheckoutPage {
 
   public completeReviewStep(): void {
     this.waitAndClick('[value="place-order"]');
-
     this.waitForSpinner();
   }
 
@@ -114,11 +99,10 @@ class CheckoutPage {
     const allWindows = browser.getWindowHandles();
     const PPWindowIndex = allWindows.indexOf(parentWindow) === 0 ? 1 : 0;
     browser.switchToWindow(allWindows[PPWindowIndex]);
-    $('#btnLogin').waitForDisplayed();
-    $('#backToInputEmailLink').click();
+    this.waitAndClick('#backToInputEmailLink');
     $('#email').setValue(payPal.email);
     browser.keys('Enter');
-    $('#password').setValue(payPal.password);
+    this.waitAndType('#password', payPal.password);
     browser.keys('Enter');
     this.waitAndClick('#payment-submit-btn');
 
@@ -128,12 +112,9 @@ class CheckoutPage {
   }
 
   public placeOrderWithPayPalExpress(payPal: { [key: string]: any }): void {
-    this.waitAndClick('#paypal-image-button');
-
-    $('#email').waitForDisplayed();
-    $('#email').setValue(payPal.email);
+    this.waitAndType('#email', payPal.email);
     browser.keys('Enter');
-    $('#password').setValue(payPal.password);
+    this.waitAndType('#password', payPal.password);
     browser.keys('Enter');
     this.waitAndClick('button[data-testid="change-shipping"]');
     $('#shippingDropdown').selectByVisibleText('FirstName LastName - 315 E Eisenhower Pkwy, Ann Arbor, MI 48108');
@@ -155,18 +136,13 @@ class CheckoutPage {
 
     const klarnaIframeIndex = this.findIframeIndex('#main-remote-root');
     browser.switchToFrame(klarnaIframeIndex);
-    const phoneField = $('#email_or_phone');
-    phoneField.waitForDisplayed();
-    phoneField.waitForEnabled();
-    phoneField.setValue('');
+    this.waitAndDoubleClick('#email_or_phone');
     for (let i = 0; i < 15; i++) {
       browser.keys('Backspace');
     }
-    phoneField.setValue(klarna.phone);
+    $('#email_or_phone').setValue(klarna.phone);
     browser.keys('Enter');
-    const codeField = $('#otp_field');
-    codeField.waitForDisplayed();
-    codeField.setValue(klarna.phone);
+    this.waitAndType('#otp_field', klarna.phone);
     browser.keys('Enter');
     this.waitAndClick('#payinparts_kp-purchase-review-continue-button');
     browser.switchToFrame(null);
@@ -177,7 +153,6 @@ class CheckoutPage {
   public placeOrderWithLocalPayment(paymentType: string): void {
     let paymentLocator: string;
     let submitBtnLocator: string;
-
     switch (paymentType) {
       case 'ideal':
         paymentLocator = '#lb_ideal';

@@ -20,9 +20,10 @@ abstract class BasePage extends Page {
 
   protected get l2CatLink(): WebdriverIO.Element {
     if (!this._l2CatLink) {
-      const catLinks = $$('ul.navbar-nav li.nav-item:nth-child(2) ul.dropdown-menu li.dropdown-item:nth-child(3) a');
-      const visibleCatLink = catLinks.find(catLink => catLink.isClickable());
-      this._l2CatLink = visibleCatLink;
+      const l2CatLinks = $$('ul.navbar-nav li.nav-item:nth-child(2) ul.dropdown-menu li.dropdown-item:nth-child(3) a').slice(1);
+      const validL2CatLink = l2CatLinks.find(l2CatLink => l2CatLink.isClickable() && l2CatLink.getAttribute('href').includes('demandware'));
+
+      this._l2CatLink = validL2CatLink;
     }
 
     return this._l2CatLink;

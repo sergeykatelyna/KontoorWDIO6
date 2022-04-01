@@ -14,23 +14,22 @@ if (process.env.SUITE_TO_RUN) {
 const timeout = process.env.DEBUG ? 999999999 : 300000;
 
 const wdioConfig = {
-  baseUrl: 'https://storefront:kontoor@',
-  // hostname: 'hub.testingbot.com',
-  // services: ['testingbot'],
+  baseUrl: 'https://storefront:kontoor@staging-na01-kontoor.demandware.net',
+  hostname: 'hub.testingbot.com',
+  services: ['testingbot'],
   waitforTimeout: 20000,
   connectionRetryTimeout: 120000,
   connectionRetryCount: 3,
-  runner: 'local',
-  hostname: 'localhost',
-  // services: ['selenium-standalone'],
-  services: [
-    ['selenium-standalone', { drivers: { firefox: 'latest', chrome: 'latest', chromiumedge: 'latest' }, skipSeleniumInstall: true }]
-  ],
-  port: 4444,
-  hostname: 'localhost',
+  // runner: 'local',
+  // // services: ['selenium-standalone'],
+  // services: [
+  //   ['selenium-standalone', { drivers: { firefox: 'latest', chrome: 'latest', chromiumedge: 'latest' }, skipSeleniumInstall: true }]
+  // ],
+  // port: 4444,
+  // hostname: 'localhost',
   path: '/wd/hub',
   // specs: ['./test/kontoor-tests/*/*/*.ts'],
-  specs: ['./test/specs/**/checkoutWithGiropay.ts'],
+  specs: ['./test/specs/**/checkoutWithKlarna.ts'],
   sync: true,
   logLevel: 'warn',
   user: '22ccc3a02857edda11703d8d2a4c3d17',
@@ -41,7 +40,9 @@ const wdioConfig = {
   maxInstances: 4,
   capabilities: [
     {
-      browserName: 'chrome'
+      browserName: 'chrome',
+      browserVersion: 'latest',
+      platformName: 'Windows 10'
     }
   ],
   // baseUrl: baseUrl,

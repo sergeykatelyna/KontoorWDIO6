@@ -6,6 +6,10 @@ const payWithCreditCard = function (creditCard) {
 
     expect(browser).toHaveUrlContaining('placeOrder');
   });
+
+  it('Submit order from Review step', function () {
+    checkoutPage.completeReviewStep();
+  });
 };
 
 export { payWithCreditCard };

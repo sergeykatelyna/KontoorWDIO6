@@ -1,8 +1,8 @@
 import { BasePage } from './base.page';
 
 class HomePage extends BasePage {
-  open(urlSitePath: string): void {
-    super.open(urlSitePath + '/home');
+  open(sitePartOfUrl: string): void {
+    super.open(sitePartOfUrl + '/home');
   }
 }
 
