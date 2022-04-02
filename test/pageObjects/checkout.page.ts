@@ -1,10 +1,6 @@
 import { Page } from './page';
 
 class CheckoutPage extends Page {
-  public get confirmStepMessage(): WebdriverIO.Element {
-    return $('.order-thank-you-msg');
-  }
-
   protected waitForPaymentSpinner(): void {
     if ($('.adyen-checkout__card-input.adyen-checkout__spinner__wrapper').isDisplayed()) {
       $('.adyen-checkout__card-input.adyen-checkout__spinner__wrapper').waitForDisplayed({ reverse: true });
@@ -58,7 +54,7 @@ class CheckoutPage extends Page {
 
   public completeBillingStepWithCC(card: { [key: string]: any }): void {
     this.waitForPaymentSpinner();
-    $('#lb_scheme').click();
+    this.waitAndClick('#lb_scheme');
 
     let CCIframeIndex = this.findIframeIndex('#encryptedCardNumber');
 
@@ -88,7 +84,7 @@ class CheckoutPage extends Page {
     const parentWindow = browser.getWindowHandle();
 
     this.waitForPaymentSpinner();
-    $('#lb_paypal').click();
+    this.waitAndClick('#lb_paypal');
 
     const payPalIframeIndex = this.findIframeIndex('.paypal-button[role="button"]');
 
@@ -108,7 +104,7 @@ class CheckoutPage extends Page {
 
     browser.switchToWindow(parentWindow);
 
-    this.waitForPage('order-confirm');
+    this.waitForPage('demandware');
   }
 
   public placeOrderWithPayPalExpress(payPal: { [key: string]: any }): void {
@@ -120,19 +116,39 @@ class CheckoutPage extends Page {
     $('#shippingDropdown').selectByVisibleText('FirstName LastName - 315 E Eisenhower Pkwy, Ann Arbor, MI 48108');
     $('#payment-submit-btn').click();
 
-    this.waitForPage('payment');
+    this.waitForPage('demandware');
 
-    $('[for="shippingAddressUseAsBillingAddress"]').click();
-    $('[for="shippingAddressUseAsBillingAddress"]').click();
-
-    this.submitBillingForm();
+    if (browser.getUrl().includes('payment')) {
+      $('[for="shippingAddressUseAsBillingAddress"]').click();
+      $('[for="shippingAddressUseAsBillingAddress"]').click();
+      this.submitBillingForm();
+    }
   }
 
-  public placeOrderWithKlarna(klarna: { [key: string]: any }): void {
-    this.waitForPaymentSpinner();
-    $('#lb_klarna_account').click();
+  public placeOrderWithKlarna(klarnaType: string, klarna: { [key: string]: any }) {
+    let klarnaLocator: string;
+    let submitBtnLocator: string;
+    switch (klarnaType) {
+      case 'payLater':
+        klarnaLocator = '#lb_klarna';
+        submitBtnLocator = '[id$="_kp-purchase-review-continue-button"]';
+        break;
+      case 'payNow':
+        klarnaLocator = '#lb_klarna_paynow';
+        submitBtnLocator = '#mandate-review__confirmation-button';
+        break;
+      default:
+        klarnaLocator = '#lb_klarna_account';
+        submitBtnLocator = '[id$="_kp-purchase-review-continue-button"]';
+    }
 
+    this.waitForPaymentSpinner();
+    this.waitAndClick(klarnaLocator);
     this.submitBillingForm();
+
+    if ($('#buy-button').isDisplayed()) {
+      this.waitAndClick('#buy-button');
+    }
 
     const klarnaIframeIndex = this.findIframeIndex('#main-remote-root');
     browser.switchToFrame(klarnaIframeIndex);
@@ -142,12 +158,18 @@ class CheckoutPage extends Page {
     }
     $('#email_or_phone').setValue(klarna.phone);
     browser.keys('Enter');
-    this.waitAndType('#otp_field', klarna.phone);
+    this.waitAndType('#otp_field', klarna.code);
     browser.keys('Enter');
-    this.waitAndClick('#payinparts_kp-purchase-review-continue-button');
+    this.waitAndClick(submitBtnLocator);
+    // this.waitAndClick('#onEmailContinue');
+    // this.waitAndType('#addressCollector-date_of_birth', klarna.date);
+    // browser.keys('Enter');
+    // this.waitAndType('#iban', klarna.iban);
+    // browser.keys('Enter');
+    // this.waitAndClick('#aligned-content__button__0');
     browser.switchToFrame(null);
 
-    this.waitForPage('order-confirm');
+    this.waitForPage('demandware');
   }
 
   public placeOrderWithLocalPayment(paymentType: string): void {
@@ -180,7 +202,7 @@ class CheckoutPage extends Page {
 
   public placeOrderWithGiropay() {
     this.waitForPaymentSpinner();
-    $('#lb_giropay').click();
+    this.waitAndClick('#lb_giropay');
 
     this.submitBillingForm();
 

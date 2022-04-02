@@ -41,6 +41,7 @@ abstract class Page {
 
     button.waitForDisplayed();
     button.waitForEnabled();
+    button.waitForClickable();
     button.setValue(entry);
   }
 

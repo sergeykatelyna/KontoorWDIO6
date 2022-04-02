@@ -1,8 +1,8 @@
 import { checkoutPage } from '../pageObjects/checkout.page';
 
-const payWithKlarna = function (klarna) {
+const payWithKlarna = function (klarnaType, klarna) {
   it('Submit order with Klarna from Billing step', function () {
-    checkoutPage.placeOrderWithKlarna(klarna);
+    checkoutPage.placeOrderWithKlarna(klarnaType, klarna);
   });
 };
 

@@ -5,7 +5,7 @@ import { verifyOrderPlaced } from '../../../../scenarios/verifyOrderPlaced';
 
 import { email, addresses, klarna, confirmTitle } from '../../../../resources/testData';
 
-describe('Kontoor: guest user places order using Klarna on Staging NAM Wrangler', function () {
+describe('Kontoor: guest user places order using Klarna Pay In 4 on Staging NAM Wrangler', function () {
   describe('Access site, add product to Cart and go to Cart page', function () {
     addProductToCart('/s/Wrangler');
   });
@@ -14,8 +14,8 @@ describe('Kontoor: guest user places order using Klarna on Staging NAM Wrangler'
     completeShippingStep(email, addresses.us.valid);
   });
 
-  describe('Place order with Klarna', function () {
-    payWithKlarna(klarna);
+  describe('Place order with Klarna Pay In 4', function () {
+    payWithKlarna('payIn4', klarna.default);
   });
 
   describe('Check if order has been placed', function () {

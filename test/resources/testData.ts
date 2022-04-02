@@ -96,8 +96,16 @@ export const payPal = {
 };
 
 export const klarna = {
-  phone: '+13322176301',
-  code: '111111'
+  default: {
+    phone: '+13322176301',
+    code: '111111'
+  },
+  de: {
+    phone: '+4917716565189',
+    code: '111111',
+    date: '11111990',
+    iban: 'DE11520513735120710131'
+  }
 };
 
 export const confirmTitle = {
