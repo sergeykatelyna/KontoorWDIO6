@@ -1,7 +1,7 @@
 import { cartPage } from '../pageObjects/cart.page';
 import { checkoutPage } from '../pageObjects/checkout.page';
 
-const payWithPayPalExpress = function (payPal) {
+const payWithPayPalExpress = function (payPalCreds) {
   it('Start PayPal Express from Cart page', function () {
     cartPage.clickPayPalExpressBtn();
 
@@ -9,7 +9,7 @@ const payWithPayPalExpress = function (payPal) {
   });
 
   it('Submit order with PayPal Express', function () {
-    checkoutPage.placeOrderWithPayPalExpress(payPal);
+    checkoutPage.placeOrderWithPayPalExpress(payPalCreds);
   });
 };
 

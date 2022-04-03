@@ -4,9 +4,11 @@ class CartPage extends BasePage {
   private _firstLineItemQtyField: WebdriverIO.Element;
 
   public get firstLineItemQtyField(): WebdriverIO.Element {
-    if (!this._firstLineItemQtyField) {
-      this._firstLineItemQtyField = $$('#qtyselectid1').find(lineItemQtyField => lineItemQtyField.isDisplayed());
+    if (this._firstLineItemQtyField) {
+      return this._firstLineItemQtyField;
     }
+
+    this._firstLineItemQtyField = $$('#qtyselectid1').find(lineItemQtyField => lineItemQtyField.isDisplayed());
     return this._firstLineItemQtyField;
   }
 

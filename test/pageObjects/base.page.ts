@@ -8,6 +8,7 @@ abstract class BasePage extends Page {
   // get l2CatLink() {
   //   return $('#WRG_MEN_JEANS');
   // }
+
   private _l2CatLink: WebdriverIO.Element;
 
   protected get l1CatLink(): WebdriverIO.Element {
@@ -19,22 +20,19 @@ abstract class BasePage extends Page {
   }
 
   protected get l2CatLink(): WebdriverIO.Element {
-    if (!this._l2CatLink) {
-      const l2CatLinks = $$('ul.navbar-nav li.nav-item:nth-child(2) ul.dropdown-menu li.dropdown-item a');
-      const visibleL2CatLinks = l2CatLinks.filter(l2CatLink => l2CatLink.isClickable()).slice(1);
-      const validL2CatLink = visibleL2CatLinks.find(l2CatLink => !l2CatLink.getAttribute('href').includes('www'));
-
-      this._l2CatLink = validL2CatLink;
+    if (this._l2CatLink) {
+      return this._l2CatLink;
     }
 
+    const l2CatLinks = $$('ul.navbar-nav li.nav-item:nth-child(2) ul.dropdown-menu li.dropdown-item a');
+    const visibleL2CatLinks = l2CatLinks.filter(l2CatLink => l2CatLink.isClickable()).slice(1);
+    const validL2CatLink = visibleL2CatLinks.find(l2CatLink => !l2CatLink.getAttribute('href').includes('www'));
+    this._l2CatLink = validL2CatLink;
     return this._l2CatLink;
   }
 
-  public get l2CatLinkName(): string {
-    const catPath = this.l2CatLink.getAttribute('data-gtm-menu-path').split(':');
-    const catNamePart = catPath[0].split(' ')[0].replace(`'`, '').toLowerCase();
-
-    return catNamePart;
+  public get l2CatLinkText(): string {
+    return this.l2CatLink.getText().toLowerCase();
   }
 
   public openCategoryDropDown(): void {

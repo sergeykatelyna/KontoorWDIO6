@@ -1,3 +1,5 @@
+import { verifyTwoStrsHaveSameWord } from '../utilities/helpers';
+
 import { homePage } from '../pageObjects/home.page';
 import { categoryPage } from '../pageObjects/category.page';
 import { productPage } from '../pageObjects/product.page';
@@ -13,11 +15,14 @@ const addProductToCart = function (sitePartOfUrl) {
   it('Navigate to Category page', function () {
     homePage.openCategoryDropDown();
 
-    const catName = homePage.l2CatLinkName;
+    const l2catLinkText = homePage.l2CatLinkText;
 
     homePage.goToCategoryPage();
 
-    expect(browser).toHaveUrlContaining(catName);
+    const catPageTitleText = categoryPage.catPageTitleText;
+
+    const isCatPageRight = verifyTwoStrsHaveSameWord(l2catLinkText, catPageTitleText);
+    expect(isCatPageRight).toEqual(true);
   });
 
   it('Navigate to Product page', function () {

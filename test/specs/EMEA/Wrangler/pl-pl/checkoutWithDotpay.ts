@@ -5,7 +5,7 @@ import { verifyOrderPlaced } from '../../../../scenarios/verifyOrderPlaced';
 
 import { email, addresses, confirmTitle } from '../../../../resources/testData';
 
-describe('Kontoor: guest user places order using DotPay on Staging EMEA Lee pl_PL', function () {
+describe('Kontoor: guest user places order using DotPay on Staging EMEA Wrangler pl_PL', function () {
   describe('Access site, add product to Cart and go to Cart page', function () {
     addProductToCart('/s/Wrangler/pl-pl');
   });

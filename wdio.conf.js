@@ -15,21 +15,21 @@ const timeout = process.env.DEBUG ? 999999999 : 300000;
 
 const wdioConfig = {
   baseUrl: 'https://storefront:kontoor@staging-na01-kontoor.demandware.net',
-  // hostname: 'hub.testingbot.com',
-  // services: ['testingbot'],
+  hostname: 'hub.testingbot.com',
+  services: ['testingbot'],
   waitforTimeout: 20000,
   connectionRetryTimeout: 120000,
   connectionRetryCount: 3,
-  runner: 'local',
-  port: 4444,
-  hostname: 'localhost',
-  services: [
-    ['selenium-standalone', { drivers: { firefox: 'latest', chrome: 'latest', chromiumedge: 'latest' }, skipSeleniumInstall: true }]
-  ],
+  // runner: 'local',
+  // port: 4444,
+  // hostname: 'localhost',
+  // services: [
+  //   ['selenium-standalone', { drivers: { firefox: 'latest', chrome: 'latest', chromiumedge: 'latest' }, skipSeleniumInstall: true }]
+  // ],
   // services: ['selenium-standalone'],
   path: '/wd/hub',
   // specs: ['./test/kontoor-tests/*/*/*.ts'],
-  specs: ['./test/specs/**/checkoutWithKlarnaPN.ts'],
+  specs: ['./test/specs/**/*.ts'],
   sync: true,
   logLevel: 'warn',
   user: '22ccc3a02857edda11703d8d2a4c3d17',

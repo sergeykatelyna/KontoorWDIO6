@@ -1,8 +1,8 @@
 import { checkoutPage } from '../pageObjects/checkout.page';
 
-const payWithCreditCard = function (creditCard) {
+const payWithCreditCard = function (creditCardCreds) {
   it('Submit Billing form with CC', function () {
-    checkoutPage.completeBillingStepWithCC(creditCard);
+    checkoutPage.completeBillingStepWithCC(creditCardCreds);
 
     expect(browser).toHaveUrlContaining('placeOrder');
   });

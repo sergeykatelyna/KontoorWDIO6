@@ -1,6 +1,7 @@
 abstract class Page {
   public open(url: string): void {
     // browser.maximizeWindow();
+
     browser.url(url);
 
     if ($('div[id^="dy-overlay"]').isDisplayed()) {
@@ -18,8 +19,16 @@ abstract class Page {
     }
   }
 
-  protected waitAndClick(buttonLocator: string): void {
-    const button = $(buttonLocator);
+  protected wait(elementOrLocator: string | WebdriverIO.Element): void {
+    const element = typeof elementOrLocator === 'string' ? $(elementOrLocator) : elementOrLocator;
+
+    element.waitForDisplayed();
+    element.waitForEnabled();
+    element.waitForClickable();
+  }
+
+  protected waitAndClick(buttonOrLocator: string | WebdriverIO.Element): void {
+    const button = typeof buttonOrLocator === 'string' ? $(buttonOrLocator) : buttonOrLocator;
 
     button.waitForDisplayed();
     button.waitForEnabled();
@@ -27,26 +36,48 @@ abstract class Page {
     button.click();
   }
 
-  protected waitAndDoubleClick(buttonLocator: string): void {
-    const button = $(buttonLocator);
+  protected waitAndDoubleClick(buttonOrLocator: string | WebdriverIO.Element): void {
+    const button = typeof buttonOrLocator === 'string' ? $(buttonOrLocator) : buttonOrLocator;
 
     button.waitForDisplayed();
     button.waitForEnabled();
     button.waitForClickable();
-    button.click();
+    button.doubleClick();
   }
 
-  protected waitAndType(fieldLocator: string, entry: string): void {
-    const button = $(fieldLocator);
+  protected waitAndType(fieldOrLocator: string | WebdriverIO.Element, entry: string): void {
+    const field = typeof fieldOrLocator === 'string' ? $(fieldOrLocator) : fieldOrLocator;
 
-    button.waitForDisplayed();
-    button.waitForEnabled();
-    button.waitForClickable();
-    button.setValue(entry);
+    field.waitForDisplayed();
+    field.waitForEnabled();
+    field.waitForClickable();
+    field.setValue(entry);
+  }
+
+  protected scrollAndWait(elementOrLocator: string | WebdriverIO.Element): void {
+    const element = typeof elementOrLocator === 'string' ? $(elementOrLocator) : elementOrLocator;
+
+    element.scrollIntoView();
+    element.waitForDisplayed();
+    element.waitForEnabled();
+    element.waitForClickable();
   }
 
   protected waitForPage(ulrPart: string): void {
     browser.waitUntil(() => browser.getUrl().toLowerCase().includes(ulrPart));
+  }
+
+  protected findIframeIndex(iframeLocator: string, locatorOfElInIframe: string): number {
+    $(iframeLocator).waitForExist;
+
+    let iframeIndex = -1;
+    do {
+      browser.switchToFrame(null);
+      browser.switchToFrame(++iframeIndex);
+    } while ($$(locatorOfElInIframe).length === 0);
+    browser.switchToFrame(null);
+
+    return iframeIndex;
   }
 }
 

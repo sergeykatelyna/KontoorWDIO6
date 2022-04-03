@@ -5,7 +5,7 @@ import { verifyOrderPlaced } from '../../../../scenarios/verifyOrderPlaced';
 
 import { email, addresses, klarna, confirmTitle } from '../../../../resources/testData';
 
-describe('Kontoor: guest user places order using Klarna Pay Later on Staging NAM Wrangler', function () {
+describe('Kontoor: guest user places order using Klarna Pay Later on Staging EMEA Wrangler uk_EN', function () {
   describe('Access site, add product to Cart and go to Cart page', function () {
     addProductToCart('/s/Wrangler/uk-en');
   });

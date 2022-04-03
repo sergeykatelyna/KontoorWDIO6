@@ -5,7 +5,7 @@ import { verifyOrderPlaced } from '../../../../scenarios/verifyOrderPlaced';
 
 import { email, addresses, creditCards, confirmTitle } from '../../../../resources/testData';
 
-describe('Kontoor: guest user places order using CC on Staging NAM Wrangler', function () {
+describe('Kontoor: guest user places order using Credit Card on Staging NAM Wrangler', function () {
   describe('Access site, add product to Cart and go to Cart page', function () {
     addProductToCart('/s/Wrangler');
   });
