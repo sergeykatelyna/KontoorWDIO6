@@ -1,17 +1,22 @@
+import { accessSiteAndRegister } from '../../../../scenarios/accessSiteAndRegister';
 import { addProductToCart } from '../../../../scenarios/addProductToCart';
 import { completeShippingStep } from '../../../../scenarios/completeShippingStep';
 import { payWithLocalPayment } from '../../../../scenarios/payWithLocalPayment';
 import { verifyOrderPlaced } from '../../../../scenarios/verifyOrderPlaced';
 
-import { email, addresses, confirmTitle } from '../../../../resources/testData';
+import { accounts, addresses, confirmTitle } from '../../../../resources/testData';
 
 describe('Kontoor: guest user places order using DotPay on Staging EMEA Wrangler pl_PL', function () {
-  describe('Access site, add product to Cart and go to Cart page', function () {
-    addProductToCart('/s/Wrangler/pl-pl');
+  describe('Access site, create account and login', function () {
+    accessSiteAndRegister('/s/Wrangler/pl-pl');
+  });
+
+  describe('Add product to Cart and go to Cart page', function () {
+    addProductToCart();
   });
 
   describe('Complete Shipping step', function () {
-    completeShippingStep(email, addresses.pl.valid);
+    completeShippingStep(accounts[0].email, addresses.pl.valid);
   });
 
   describe('Place order with DotPay', function () {

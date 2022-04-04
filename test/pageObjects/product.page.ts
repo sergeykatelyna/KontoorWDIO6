@@ -1,9 +1,7 @@
 import { BasePage } from './base.page';
 
 class ProductPage extends BasePage {
-  public get miniCartQty(): string {
-    return $('a .minicart-quantity').getText();
-  }
+
 
   // protected selectSizes(): void {
   //   const size1 = $$('.SIZE1 button');

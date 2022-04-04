@@ -5,13 +5,7 @@ import { categoryPage } from '../pageObjects/category.page';
 import { productPage } from '../pageObjects/product.page';
 import { cartPage } from '../pageObjects/cart.page';
 
-const addProductToCart = function (sitePartOfUrl) {
-  it('Access site', function () {
-    homePage.open(sitePartOfUrl);
-
-    expect(browser).toHaveUrlContaining('home');
-  });
-
+const addProductToCart = function () {
   it('Navigate to Category page', function () {
     homePage.openCategoryDropDown();
 
@@ -34,21 +28,23 @@ const addProductToCart = function (sitePartOfUrl) {
   });
 
   it('Add product to Cart', function () {
+    const initialMiniCartQty = +productPage.miniCartQty;
+
     productPage.addToCart();
 
-    expect(productPage.miniCartQty).toEqual('1');
+    expect(productPage.miniCartQty).toEqual(`${initialMiniCartQty + 1}`);
   });
 
   it('Go to Cart page', function () {
-    homePage.goToCartPage();
+    productPage.goToCartPage();
 
     expect(browser).toHaveUrlContaining('shopping-cart');
   });
 
   it('Increase product quantity', function () {
-    cartPage.increaseProductQty('2');
+    const expectedQty = cartPage.increaseProductQty('2');
 
-    expect(cartPage.firstLineItemQtyField).toHaveValue('2');
+    expect(cartPage.firstLineItemQtyField).toHaveValue(expectedQty);
   });
 };
 

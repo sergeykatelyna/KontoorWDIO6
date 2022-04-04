@@ -21,11 +21,20 @@ class CartPage extends BasePage {
   }
 
   public increaseProductQty(qty: string) {
+    this.wait(this.firstLineItemQtyField);
+
+    const plusBtn = this.firstLineItemQtyField.$('..').$('.input-group-append button');
+    const isPlusBtnDisabled = plusBtn.getAttribute('class').includes('disabled');
+    if (isPlusBtnDisabled) {
+      return this.firstLineItemQtyField.getValue();
+    }
+
     this.firstLineItemQtyField.setValue('');
     browser.keys('Backspace');
     browser.keys(qty);
     browser.keys('Tab');
     this.waitForSpinner();
+    return qty;
   }
 }
 

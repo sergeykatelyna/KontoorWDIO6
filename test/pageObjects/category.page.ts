@@ -12,7 +12,7 @@ class CategoryPage extends BasePage {
   }
 
   protected get productsCounterNumber(): number {
-    const productsNum = Number(this.productsCounter.getText());
+    const productsNum = +this.productsCounter.getText();
     const productsNumLimited = productsNum > 48 ? 48 : productsNum;
     return productsNumLimited;
   }

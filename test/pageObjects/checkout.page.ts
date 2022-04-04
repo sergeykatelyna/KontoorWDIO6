@@ -13,7 +13,18 @@ class CheckoutPage extends Page {
   }
 
   public completeShippingStep(email: string, address: { [key: string]: any }): void {
-    $('#email').setValue(email);
+    if ($('.default-shipping-address-container').isExisting()) {
+      this.waitAndClick('#btn-show-details-select');
+      this.waitAndClick('.submit-shipping');
+      this.waitForSpinner();
+      return;
+    }
+
+    const emailField = $('#email');
+    if (emailField.isDisplayed()) {
+      emailField.setValue(email);
+    }
+
     $('#shippingFirstNamedefault').setValue('FirstName');
     $('#shippingLastNamedefault').setValue('LastName');
     $('#shippingAddressOnedefault').setValue(address.address1);
@@ -32,7 +43,7 @@ class CheckoutPage extends Page {
     this.waitForSpinner();
     $('#shippingZipCodedefault').setValue(address.zip);
     browser.keys('Tab');
-    browser.pause(2000);
+    browser.pause(1500);
     this.waitForSpinner();
     $('#shippingPhoneNumberdefault').setValue(address.phone);
     this.waitForSpinner();
@@ -103,15 +114,17 @@ class CheckoutPage extends Page {
     browser.keys('Enter');
     this.waitAndType('#password', payPalCreds.password);
     browser.keys('Enter');
-    this.waitAndClick('button[data-testid="change-shipping"]');
+    do {
+      this.waitAndClick('button[data-testid="change-shipping"]');
+      browser.pause(1000);
+    } while ($('button[data-testid="change-shipping"]').isDisplayed());
     $('#shippingDropdown').selectByVisibleText('FirstName LastName - 315 E Eisenhower Pkwy, Ann Arbor, MI 48108');
     $('#payment-submit-btn').click();
 
     this.waitForPage('demandware');
 
     if (browser.getUrl().includes('payment')) {
-      $('[for="shippingAddressUseAsBillingAddress"]').click();
-      $('[for="shippingAddressUseAsBillingAddress"]').click();
+      this.waitAndClick('[for="shippingAddressUseAsBillingAddress"]');
       this.submitBillingForm();
     }
   }

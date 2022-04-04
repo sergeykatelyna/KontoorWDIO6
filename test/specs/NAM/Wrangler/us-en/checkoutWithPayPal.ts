@@ -1,17 +1,22 @@
+import { accessSiteAsRegistered } from '../../../../scenarios/accessSiteAsRegistered';
 import { addProductToCart } from '../../../../scenarios/addProductToCart';
 import { completeShippingStep } from '../../../../scenarios/completeShippingStep';
 import { payWithPayPal } from '../../../../scenarios/payWithPayPal';
 import { verifyOrderPlaced } from '../../../../scenarios/verifyOrderPlaced';
 
-import { email, addresses, payPal, confirmTitle } from '../../../../resources/testData';
+import { accounts, addresses, payPal, confirmTitle } from '../../../../resources/testData';
 
 describe('Kontoor: guest user places order using PayPal on Staging NAM Wrangler', function () {
-  describe('Access site, add product to Cart and go to Cart page', function () {
-    addProductToCart('/s/Wrangler');
+  describe('Access site and log into account', function () {
+    accessSiteAsRegistered('/s/Wrangler', accounts[1]);
+  });
+
+  describe('Add product to Cart and go to Cart page', function () {
+    addProductToCart();
   });
 
   describe('Complete Shipping step', function () {
-    completeShippingStep(email, addresses.us.valid);
+    completeShippingStep(accounts[0].email, addresses.us.valid);
   });
 
   describe('Place order with PayPal', function () {

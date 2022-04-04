@@ -31,8 +31,20 @@ abstract class BasePage extends Page {
     return this._l2CatLink;
   }
 
+  protected get cartLink(): WebdriverIO.Element {
+    return $('.minicart-link');
+  }
+
+  protected get loginLink(): WebdriverIO.Element {
+    return $('.user a[href*="login"]');
+  }
+
   public get l2CatLinkText(): string {
     return this.l2CatLink.getText().toLowerCase();
+  }
+
+  public get miniCartQty(): string {
+    return $('a .minicart-quantity').getText().trim();
   }
 
   public openCategoryDropDown(): void {
@@ -45,7 +57,11 @@ abstract class BasePage extends Page {
   }
 
   public goToCartPage(): void {
-    $('.minicart-link').click();
+    this.cartLink.click();
+  }
+
+  public goToLoginPage(): void {
+    this.loginLink.click();
   }
 }
 

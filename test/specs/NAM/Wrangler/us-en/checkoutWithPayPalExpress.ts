@@ -1,3 +1,4 @@
+import { accessSiteAsGuest } from '../../../../scenarios/accessSiteAsGuest';
 import { addProductToCart } from '../../../../scenarios/addProductToCart';
 import { payWithPayPalExpress } from '../../../../scenarios/payWithPayPalExpress';
 import { verifyOrderPlaced } from '../../../../scenarios/verifyOrderPlaced';
@@ -5,8 +6,12 @@ import { verifyOrderPlaced } from '../../../../scenarios/verifyOrderPlaced';
 import { payPal, confirmTitle } from '../../../../resources/testData';
 
 describe('Kontoor: guest user places order using PayPal Express on Staging NAM Wrangler', function () {
-  describe('Access site, add product to Cart and go to Cart page', function () {
-    addProductToCart('/s/Wrangler');
+  describe('Access site as guest', function () {
+    accessSiteAsGuest('/s/Wrangler');
+  });
+
+  describe('Add product to Cart and go to Cart page', function () {
+    addProductToCart();
   });
 
   describe('Place order with PayPal Express', function () {

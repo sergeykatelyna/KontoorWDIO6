@@ -1,4 +1,17 @@
-export const email = 'roman.holubkov1@capgemini.com';
+export const accounts = [
+  {
+    email: 'sperotest3@gmail.com',
+    password: 'Password-1'
+  },
+  {
+    email: 'sperotest4@gmail.com',
+    password: 'Password-1'
+  },
+  {
+    email: 'sperotest5@gmail.com',
+    password: 'Password-1'
+  }
+];
 
 export const addresses = {
   us: {

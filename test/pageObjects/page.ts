@@ -15,7 +15,7 @@ abstract class Page {
 
   protected waitForSpinner(): void {
     if ($('.veil').isDisplayed()) {
-      $('.veil').waitForDisplayed({ reverse: true, timeout: 30000 });
+      $('.veil').waitForDisplayed({ reverse: true, timeout: 40000 });
     }
   }
 
@@ -54,6 +54,15 @@ abstract class Page {
     field.setValue(entry);
   }
 
+  protected waitAndSelectByValue(fieldOrLocator: string | WebdriverIO.Element, value: string): void {
+    const field = typeof fieldOrLocator === 'string' ? $(fieldOrLocator) : fieldOrLocator;
+
+    field.waitForDisplayed();
+    field.waitForEnabled();
+    field.waitForClickable();
+    field.selectByAttribute('value', value);
+  }
+
   protected scrollAndWait(elementOrLocator: string | WebdriverIO.Element): void {
     const element = typeof elementOrLocator === 'string' ? $(elementOrLocator) : elementOrLocator;
 
@@ -64,7 +73,7 @@ abstract class Page {
   }
 
   protected waitForPage(ulrPart: string): void {
-    browser.waitUntil(() => browser.getUrl().toLowerCase().includes(ulrPart));
+    browser.waitUntil(() => browser.getUrl().toLowerCase().includes(ulrPart), { timeout: 60000 });
   }
 
   protected findIframeIndex(iframeLocator: string, locatorOfElInIframe: string): number {
