@@ -77,7 +77,7 @@ abstract class Page {
   }
 
   protected findIframeIndex(iframeLocator: string, locatorOfElInIframe: string): number {
-    $(iframeLocator).waitForExist;
+    $(iframeLocator).waitForDisplayed();
 
     let iframeIndex = -1;
     do {

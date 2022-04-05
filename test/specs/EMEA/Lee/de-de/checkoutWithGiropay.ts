@@ -7,7 +7,7 @@ import { verifyOrderPlaced } from '../../../../scenarios/verifyOrderPlaced';
 import { accounts, addresses, confirmTitle } from '../../../../resources/testData';
 
 describe('Kontoor: guest user places order using GiroPay on Staging EMEA Lee de_DE', function () {
-  describe('Access site and log into account', function () {
+  describe('Access site as guest', function () {
     accessSiteAsGuest('/s/Lee/de-de');
   });
 

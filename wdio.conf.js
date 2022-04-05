@@ -29,7 +29,7 @@ const wdioConfig = {
   // services: ['selenium-standalone'],
   path: '/wd/hub',
   // specs: ['./test/kontoor-tests/*/*/*.ts'],
-  specs: ['./test/specs/**/us-en/checkoutWithCC.ts'],
+  specs: ['./test/specs/**/checkoutWithKlarnaPN.ts'],
   sync: true,
   logLevel: 'warn',
   user: '22ccc3a02857edda11703d8d2a4c3d17',
@@ -41,8 +41,9 @@ const wdioConfig = {
   capabilities: [
     {
       browserName: 'chrome',
-      browserVersion: 'latest',
-      platformName: 'Windows 10'
+      // browserVersion: 'latest',
+      platformName: 'Windows 10',
+      pageLoadStrategy: 'normal'
     }
   ],
   // baseUrl: baseUrl,
@@ -82,7 +83,8 @@ const wdioConfig = {
   //   }
   // },
   before: function (capabilities, specs) {
-    browser.setWindowSize(1400, 1050);
+    // browser.setWindowSize(1400, 1050);
+    browser.maximizeWindow();
     browser.setTimeout({ pageLoad: 60000, implicit: 250 });
     // browser.windowHandleSize({ width: 1400, height: 1050 });
     // console.log(specs[0]);

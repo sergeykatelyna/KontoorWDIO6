@@ -7,7 +7,7 @@ import { verifyOrderPlaced } from '../../../../scenarios/verifyOrderPlaced';
 import { accounts, addresses, klarna, confirmTitle } from '../../../../resources/testData';
 
 describe('Kontoor: guest user places order using Klarna Pay In 4 on Staging NAM Wrangler', function () {
-  describe('Access site and log into account', function () {
+  describe('Access site as guest', function () {
     accessSiteAsGuest('/s/Wrangler');
   });
 

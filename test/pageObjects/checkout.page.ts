@@ -150,18 +150,21 @@ class CheckoutPage extends Page {
     this.waitAndClick(klarnaLocator);
     this.submitBillingForm();
 
-    if ($('#buy-button').isDisplayed()) {
+    if (klarnaType !== 'payIn4') {
       this.waitAndClick('#buy-button');
     }
-    browser.pause(1000);
 
     const klarnaIframeIndex = this.findIframeIndex('#klarna-hpp-instance-fullscreen', '#main-remote-root');
     browser.switchToFrame(klarnaIframeIndex);
-    this.waitAndDoubleClick('#email_or_phone');
-    for (let i = 0; i < 15; i++) {
-      browser.keys('Backspace');
-    }
-    $('#email_or_phone').setValue(klarnaCreds.phone);
+    const phoneField = $('#email_or_phone');
+    this.wait(phoneField);
+    do {
+      this.waitAndDoubleClick(phoneField);
+      for (let i = 0; i < 15; i++) {
+        browser.keys('Backspace');
+      }
+    } while (phoneField.getValue() !== '');
+    phoneField.setValue(klarnaCreds.phone);
     browser.keys('Enter');
     this.waitAndType('#otp_field', klarnaCreds.code);
     browser.keys('Enter');

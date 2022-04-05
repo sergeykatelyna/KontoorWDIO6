@@ -26,7 +26,11 @@ class CategoryPage extends BasePage {
       const productPosition = Math.floor(Math.random() * this.productsCounterNumber + 1);
       const productLink = $(`.product-grid .grid-item:nth-child(${productPosition}) .pdp-link a`);
       this.scrollAndWait(productLink);
-      this._productTileLink = productLink;
+      const colorSwatches = $$(`.product-grid .grid-item:nth-child(${productPosition}) .color-swatches .plp-color-swatch span`);
+      const isAvailable = colorSwatches.some(colorSwatch => !colorSwatch.getAttribute('class').includes('unavailable'));
+      if (isAvailable) {
+        this._productTileLink = productLink;
+      }
     } while (!this._productTileLink);
     return this._productTileLink;
   }
