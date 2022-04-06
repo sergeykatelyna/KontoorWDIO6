@@ -95,6 +95,16 @@ export const addresses = {
       zip: '2485',
       phone: '3333333333'
     }
+  },
+  it: {
+    valid: {
+      address1: 'Via Dafnica 321',
+      address2: '',
+      city: 'Acireale',
+      state: 'CT',
+      zip: '95024',
+      phone: '3333333333'
+    }
   }
 };
 
@@ -108,6 +118,12 @@ export const creditCards = {
   amex: {
     number: '370000000000101',
     cvv: '7373',
+    date: '0330',
+    name: 'NameOnCard'
+  },
+  mc: {
+    number: '5500000000000004',
+    cvv: '737',
     date: '0330',
     name: 'NameOnCard'
   }
@@ -136,5 +152,6 @@ export const confirmTitle = {
   nl: 'bedankt voor je bestelling',
   fr: 'merci de votre commande',
   pl: 'dziękuję za twoje zamówienie',
-  de: 'vielen dank für ihre bestellung'
+  de: 'vielen dank für ihre bestellung',
+  it: `grazie per l''ordine`
 };
