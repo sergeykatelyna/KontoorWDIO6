@@ -6,7 +6,7 @@ import { verifyOrderPlaced } from '../../../../scenarios/verifyOrderPlaced';
 
 import { accounts, addresses, creditCards, confirmTitle } from '../../../../resources/testData';
 
-describe('Kontoor: guest user places order using Credit Card on Staging NAM Wrangler', function () {
+describe('Kontoor: registered user places order using Credit Card on Staging NAM Wrangler', function () {
   describe('Access site and log into account', function () {
     accessSiteAsRegistered('/s/Wrangler', accounts[0]);
   });
@@ -16,11 +16,11 @@ describe('Kontoor: guest user places order using Credit Card on Staging NAM Wran
   });
 
   describe('Complete Shipping step', function () {
-    completeShippingStep(accounts[0].email, addresses.us.valid);
+    completeShippingStep(addresses.us.valid);
   });
 
-  describe('Complete Billing step with CC', function () {
-    payWithCreditCard(creditCards.visa);
+  describe('Complete Billing step with new CC', function () {
+    payWithCreditCard(false, creditCards.visa);
   });
 
   describe('Check if order has been placed', function () {

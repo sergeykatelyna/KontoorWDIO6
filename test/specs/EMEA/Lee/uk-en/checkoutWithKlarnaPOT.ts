@@ -6,7 +6,7 @@ import { verifyOrderPlaced } from '../../../../scenarios/verifyOrderPlaced';
 
 import { accounts, addresses, klarna, confirmTitle } from '../../../../resources/testData';
 
-describe('Kontoor: guest user places order using Klarna Pay Over Time on Staging EMEA Lee uk_EN', function () {
+describe('Kontoor: registered user places order using Klarna Pay Over Time on Staging EMEA Lee uk_EN', function () {
   describe('Access site and log into account', function () {
     accessSiteAsRegistered('/s/Lee/uk-en', accounts[2]);
   });
@@ -16,7 +16,7 @@ describe('Kontoor: guest user places order using Klarna Pay Over Time on Staging
   });
 
   describe('Complete Shipping step', function () {
-    completeShippingStep(accounts[0].email, addresses.uk.valid);
+    completeShippingStep(addresses.uk.valid);
   });
 
   describe('Place order with Klarna Pay Over Time', function () {

@@ -1,7 +1,7 @@
 import { cartPage } from '../pageObjects/cart.page';
 import { checkoutPage } from '../pageObjects/checkout.page';
 
-const completeShippingStep = function (email, address) {
+const completeShippingStep = function (address, email?) {
   it('Start Checkout from Cart page', function () {
     cartPage.clickCheckoutBtn();
 
@@ -9,7 +9,7 @@ const completeShippingStep = function (email, address) {
   });
 
   it('Submit Shipping form with valid address', function () {
-    checkoutPage.completeShippingStep(email, address);
+    checkoutPage.completeShippingStep(address, email);
 
     expect(browser).toHaveUrlContaining('payment');
   });

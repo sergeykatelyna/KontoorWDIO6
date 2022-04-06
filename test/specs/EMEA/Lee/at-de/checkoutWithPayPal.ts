@@ -16,7 +16,7 @@ describe('Kontoor: guest user places order using PayPal on Staging EMEA Lee at_D
   });
 
   describe('Complete Shipping step', function () {
-    completeShippingStep(accounts[0].email, addresses.at.valid);
+    completeShippingStep(addresses.at.valid, accounts[0].email);
   });
 
   describe('Place order with PayPal', function () {

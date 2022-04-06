@@ -6,7 +6,7 @@ import { verifyOrderPlaced } from '../../../../scenarios/verifyOrderPlaced';
 
 import { accounts, addresses, payPal, confirmTitle } from '../../../../resources/testData';
 
-describe('Kontoor: guest user places order using PayPal on Staging NAM Wrangler', function () {
+describe('Kontoor: registered user places order using PayPal on Staging NAM Wrangler', function () {
   describe('Access site and log into account', function () {
     accessSiteAsRegistered('/s/Wrangler', accounts[1]);
   });
@@ -16,7 +16,7 @@ describe('Kontoor: guest user places order using PayPal on Staging NAM Wrangler'
   });
 
   describe('Complete Shipping step', function () {
-    completeShippingStep(accounts[0].email, addresses.us.valid);
+    completeShippingStep(addresses.us.valid);
   });
 
   describe('Place order with PayPal', function () {

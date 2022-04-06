@@ -16,7 +16,7 @@ describe('Kontoor: guest user places order using Klarna Pay In 4 on Staging NAM 
   });
 
   describe('Complete Shipping step', function () {
-    completeShippingStep(accounts[0].email, addresses.us.valid);
+    completeShippingStep(addresses.us.valid, accounts[0].email);
   });
 
   describe('Place order with Klarna Pay In 4', function () {

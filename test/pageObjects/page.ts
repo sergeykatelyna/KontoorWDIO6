@@ -76,17 +76,25 @@ abstract class Page {
     browser.waitUntil(() => browser.getUrl().toLowerCase().includes(ulrPart), { timeout: 60000 });
   }
 
-  protected findIframeIndex(iframeLocator: string, locatorOfElInIframe: string): number {
-    $(iframeLocator).waitForDisplayed();
+  // protected findIframeIndex(iframeLocator: string, locatorOfElInIframe: string): number {
+  //   $(iframeLocator).waitForDisplayed();
 
-    let iframeIndex = -1;
-    do {
-      browser.switchToFrame(null);
-      browser.switchToFrame(++iframeIndex);
-    } while ($$(locatorOfElInIframe).length === 0);
-    browser.switchToFrame(null);
+  //   let iframeIndex = -1;
+  //   do {
+  //     browser.switchToFrame(null);
+  //     browser.switchToFrame(++iframeIndex);
+  //   } while ($$(locatorOfElInIframe).length === 0);
+  //   browser.switchToFrame(null);
 
-    return iframeIndex;
+  //   return iframeIndex;
+  // }
+
+  protected switchToIframe(iframeLocator: string): void {
+    const iframe = $(iframeLocator);
+
+    iframe.waitForDisplayed();
+
+    browser.switchToFrame(iframe);
   }
 }
 

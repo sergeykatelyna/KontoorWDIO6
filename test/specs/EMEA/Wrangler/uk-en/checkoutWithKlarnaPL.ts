@@ -16,7 +16,7 @@ describe('Kontoor: guest user places order using Klarna Pay Later on Staging EME
   });
 
   describe('Complete Shipping step', function () {
-    completeShippingStep(accounts[0].email, addresses.uk.valid);
+    completeShippingStep(addresses.uk.valid, accounts[0].email);
   });
 
   describe('Place order with Klarna Pay Later', function () {

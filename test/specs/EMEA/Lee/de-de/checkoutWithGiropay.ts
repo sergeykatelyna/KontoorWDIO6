@@ -16,7 +16,7 @@ describe('Kontoor: guest user places order using GiroPay on Staging EMEA Lee de_
   });
 
   describe('Complete Shipping step', function () {
-    completeShippingStep(accounts[0].email, addresses.de.valid);
+    completeShippingStep(addresses.de.valid, accounts[0].email);
   });
 
   describe('Place order with iDEAL', payWithGiropay);

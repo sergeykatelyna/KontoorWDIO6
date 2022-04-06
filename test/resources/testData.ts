@@ -10,6 +10,10 @@ export const accounts = [
   {
     email: 'sperotest5@gmail.com',
     password: 'Password-1'
+  },
+  {
+    email: 'sperotest6@gmail.com',
+    password: 'Password-1'
   }
 ];
 
@@ -98,6 +102,12 @@ export const creditCards = {
   visa: {
     number: '4111111111111111',
     cvv: '737',
+    date: '0330',
+    name: 'NameOnCard'
+  },
+  amex: {
+    number: '370000000000101',
+    cvv: '7373',
     date: '0330',
     name: 'NameOnCard'
   }

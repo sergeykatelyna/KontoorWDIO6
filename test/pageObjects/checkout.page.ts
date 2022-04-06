@@ -2,8 +2,8 @@ import { Page } from './page';
 
 class CheckoutPage extends Page {
   protected waitForPaymentSpinner(): void {
-    if ($('.adyen-checkout__card-input.adyen-checkout__spinner__wrapper').isDisplayed()) {
-      $('.adyen-checkout__card-input.adyen-checkout__spinner__wrapper').waitForDisplayed({ reverse: true });
+    if ($('.adyen-checkout__spinner__wrapper').isDisplayed()) {
+      $('.adyen-checkout__spinner__wrapper').waitForDisplayed({ reverse: true });
     }
   }
 
@@ -12,7 +12,7 @@ class CheckoutPage extends Page {
     this.waitForSpinner();
   }
 
-  public completeShippingStep(email: string, address: { [key: string]: any }): void {
+  public completeShippingStep(address: { [key: string]: any }, email?: string): void {
     if ($('.default-shipping-address-container').isExisting()) {
       this.waitAndClick('#btn-show-details-select');
       this.waitAndClick('.submit-shipping');
@@ -52,25 +52,32 @@ class CheckoutPage extends Page {
     this.waitForSpinner();
   }
 
-  public completeBillingStepWithCC(creditCardCreds: { [key: string]: any }): void {
+  public completeBillingStepWithCC(isCreditCardSaved: boolean, creditCardCreds?: { [key: string]: any }): void {
+    const creditCardLocator = isCreditCardSaved ? '[for="selectStoredCards"]' : '#lb_scheme';
+
     this.waitForPaymentSpinner();
-    this.waitAndClick('#lb_scheme');
+    this.waitAndClick(creditCardLocator);
+    this.waitForPaymentSpinner();
 
-    let CCIframeIndex = this.findIframeIndex('[data-cse="encryptedCardNumber"] iframe', '#encryptedCardNumber');
-
-    browser.switchToFrame(CCIframeIndex);
-    $('#encryptedCardNumber').setValue(creditCardCreds.number);
-    browser.switchToFrame(null);
-
-    browser.switchToFrame(++CCIframeIndex);
-    $('#encryptedExpiryDate').setValue(creditCardCreds.date);
-    browser.switchToFrame(null);
-
-    browser.switchToFrame(++CCIframeIndex);
-    $('#encryptedSecurityCode').setValue(creditCardCreds.cvv);
-    browser.switchToFrame(null);
-
-    $('[class~="adyen-checkout__card__holderName__input"]').setValue(creditCardCreds.name);
+    if (isCreditCardSaved) {
+      this.switchToIframe('.saved-cards-container .paymentMethod:nth-of-type(1) iframe');
+      const cvvField = $('#encryptedSecurityCode');
+      this.wait(cvvField);
+      const cvvValue = cvvField.getAttribute('placeholder').length === 3 ? '737' : '7373';
+      cvvField.setValue(cvvValue);
+      browser.switchToFrame(null);
+    } else {
+      this.switchToIframe('[data-cse="encryptedCardNumber"] iframe');
+      this.waitAndType('#encryptedCardNumber', creditCardCreds.number);
+      browser.switchToFrame(null);
+      this.switchToIframe('[data-cse="encryptedExpiryDate"] iframe');
+      $('#encryptedExpiryDate').setValue(creditCardCreds.date);
+      browser.switchToFrame(null);
+      this.switchToIframe('#component_scheme [data-cse="encryptedSecurityCode"] iframe');
+      $('#encryptedSecurityCode').setValue(creditCardCreds.cvv);
+      browser.switchToFrame(null);
+      $('[class~="adyen-checkout__card__holderName__input"]').setValue(creditCardCreds.name);
+    }
 
     this.submitBillingForm();
   }
@@ -85,10 +92,8 @@ class CheckoutPage extends Page {
 
     this.waitForPaymentSpinner();
     this.waitAndClick('#lb_paypal');
-    browser.pause(1000);
 
-    const payPalIframeIndex = this.findIframeIndex('iframe[title="PayPal"]', '.paypal-button[role="button"]');
-    browser.switchToFrame(payPalIframeIndex);
+    this.switchToIframe('iframe[title="PayPal"]');
     this.wait('.paypal-button[role="button"]');
     browser.pause(1000);
     $('.paypal-button[role="button"]').click();
@@ -154,8 +159,7 @@ class CheckoutPage extends Page {
       this.waitAndClick('#buy-button');
     }
 
-    const klarnaIframeIndex = this.findIframeIndex('#klarna-hpp-instance-fullscreen', '#main-remote-root');
-    browser.switchToFrame(klarnaIframeIndex);
+    this.switchToIframe('#klarna-hpp-instance-fullscreen');
     const phoneField = $('#email_or_phone');
     this.wait(phoneField);
     do {

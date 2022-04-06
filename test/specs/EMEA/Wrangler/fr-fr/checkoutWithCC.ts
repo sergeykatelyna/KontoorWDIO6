@@ -16,11 +16,11 @@ describe('Kontoor: guest user places order using Credit Card on Staging EMEA Wra
   });
 
   describe('Complete Shipping step', function () {
-    completeShippingStep(accounts[0].email, addresses.fr.valid);
+    completeShippingStep(addresses.fr.valid, accounts[0].email);
   });
 
-  describe('Complete Billing step with CC', function () {
-    payWithCreditCard(creditCards.visa);
+  describe('Complete Billing step with new CC', function () {
+    payWithCreditCard(false, creditCards.visa);
   });
 
   describe('Check if order has been placed', function () {

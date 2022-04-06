@@ -16,7 +16,7 @@ describe('Kontoor: guest user places order using Klarna Pay Now on Staging EMEA 
   });
 
   describe('Complete Shipping step', function () {
-    completeShippingStep(accounts[0].email, addresses.de.valid);
+    completeShippingStep(addresses.de.valid, accounts[0].email);
   });
 
   describe('Place order with Klarna Pay Now', function () {
